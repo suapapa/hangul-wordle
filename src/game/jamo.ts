@@ -1,5 +1,11 @@
+/** Vowel key rows shown on the keyboard */
+export const KEYBOARD_VOWEL_ROWS = [
+  ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ'],
+  ['ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ'],
+] as const;
+
 /** Vowel keys shown on the keyboard */
-export const KEYBOARD_VOWELS = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅡ', 'ㅣ'] as const;
+export const KEYBOARD_VOWELS = KEYBOARD_VOWEL_ROWS.flat();
 
 /** Consonant keys shown on the keyboard */
 export const KEYBOARD_CONSONANTS = [
@@ -19,7 +25,6 @@ const VOWEL_DECOMPOSITION: Record<string, readonly string[]> = {
   'ㅞ': ['ㅜ', 'ㅓ', 'ㅣ'],
   'ㅟ': ['ㅜ', 'ㅣ'],
   'ㅢ': ['ㅡ', 'ㅣ'],
-  'ㅠ': ['ㅣ', 'ㅜ'],
 };
 
 const KEYBOARD_VOWEL_SET = new Set<string>(KEYBOARD_VOWELS);

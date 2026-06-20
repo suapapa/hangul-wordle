@@ -1,5 +1,5 @@
 import { KeyboardKey } from './KeyboardKey.js';
-import { KEYBOARD_CONSONANTS, KEYBOARD_VOWELS } from '../game/jamo.js';
+import { KEYBOARD_CONSONANTS, KEYBOARD_VOWEL_ROWS } from '../game/jamo.js';
 import type { Evaluation } from '../game/types.js';
 
 interface KeyboardProps {
@@ -12,7 +12,7 @@ interface KeyboardProps {
 const keyboardLayout = [
   KEYBOARD_CONSONANTS.slice(0, 7),
   KEYBOARD_CONSONANTS.slice(7),
-  [...KEYBOARD_VOWELS],
+  ...KEYBOARD_VOWEL_ROWS,
 ];
 
 export function Keyboard({ onKeyPress, onDelete, onEnter, colors }: KeyboardProps) {
@@ -40,15 +40,14 @@ export function Keyboard({ onKeyPress, onDelete, onEnter, colors }: KeyboardProp
           label="↵"
           color="unknown"
           onClick={onEnter}
-          large
+          action
           ariaLabel="제출"
         />
-        <div className="flex-1" />
         <KeyboardKey
           label="⌫"
           color="unknown"
           onClick={onDelete}
-          large
+          action
           ariaLabel="지우기"
         />
       </div>

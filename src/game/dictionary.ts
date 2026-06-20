@@ -4,78 +4,26 @@ import { expandJamos, isPlayableWord } from "./jamo.js";
 // Korean words; filtered below to those that fit 5 basic jamo slots
 const allWords: WordEntry[] = [
   // CV-CGV words (2 syllable, 5 jamo total)
-  {
-    jamos: ["ㅂ", "ㅜ", "ㅂ", "ㅜ", "ㄴ"],
-    hangul: "부분",
-    meaning: "part, portion",
-  },
-  {
-    jamos: ["ㅂ", "ㅏ", "ㅇ", "ㄱ", "ㅜ"],
-    hangul: "방구",
-    meaning: "vent, toilet",
-  },
+  { jamos: ["ㅂ", "ㅜ", "ㅂ", "ㅜ", "ㄴ"], hangul: "부분", meaning: "part, portion" },
+  { jamos: ["ㅂ", "ㅏ", "ㅇ", "ㄱ", "ㅜ"], hangul: "방구", meaning: "vent, toilet" },
   { jamos: ["ㅂ", "ㅏ", "ㄴ", "ㅈ", "ㅣ"], hangul: "반지", meaning: "ring" },
-  {
-    jamos: ["ㅈ", "ㅏ", "ㄴ", "ㅊ", "ㅣ"],
-    hangul: "잔치",
-    meaning: "party, celebration",
-  },
-  {
-    jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅁ", "ㅗ"],
-    hangul: "산모",
-    meaning: "new mother",
-  },
+  { jamos: ["ㅈ", "ㅏ", "ㄴ", "ㅊ", "ㅣ"], hangul: "잔치", meaning: "party, celebration" },
+  { jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅁ", "ㅗ"], hangul: "산모", meaning: "new mother" },
   { jamos: ["ㅁ", "ㅜ", "ㄴ", "ㅇ", "ㅓ"], hangul: "문어", meaning: "octopus" },
-  {
-    jamos: ["ㄱ", "ㅏ", "ㄴ", "ㅎ", "ㅗ"],
-    hangul: "간호",
-    meaning: "nurse, care",
-  },
-  {
-    jamos: ["ㄷ", "ㅏ", "ㄴ", "ㅎ", "ㅗ"],
-    hangul: "단호",
-    meaning: "resolute",
-  },
+  { jamos: ["ㄱ", "ㅏ", "ㄴ", "ㅎ", "ㅗ"], hangul: "간호", meaning: "nurse, care" },
+  { jamos: ["ㄷ", "ㅏ", "ㄴ", "ㅎ", "ㅗ"], hangul: "단호", meaning: "resolute" },
   { jamos: ["ㄷ", "ㅏ", "ㄴ", "ㅊ", "ㅗ"], hangul: "단초", meaning: "clue" },
-  {
-    jamos: ["ㄷ", "ㅏ", "ㄴ", "ㅈ", "ㅗ"],
-    hangul: "단조",
-    meaning: "minor key",
-  },
-  {
-    jamos: ["ㄷ", "ㅏ", "ㄴ", "ㅅ", "ㅗ"],
-    hangul: "단소",
-    meaning: "single-string instrument",
-  },
+  { jamos: ["ㄷ", "ㅏ", "ㄴ", "ㅈ", "ㅗ"], hangul: "단조", meaning: "minor key" },
+  { jamos: ["ㄷ", "ㅏ", "ㄴ", "ㅅ", "ㅗ"], hangul: "단소", meaning: "single-string instrument" },
   { jamos: ["ㄷ", "ㅏ", "ㄴ", "ㅇ", "ㅗ"], hangul: "단오", meaning: "Dano festival" },
-  {
-    jamos: ["ㅎ", "ㅏ", "ㄴ", "ㄷ", "ㅜ"],
-    hangul: "한두",
-    meaning: "a couple of",
-  },
+  { jamos: ["ㅎ", "ㅏ", "ㄴ", "ㄷ", "ㅜ"], hangul: "한두", meaning: "a couple of" },
   { jamos: ["ㅎ", "ㅏ", "ㄴ", "ㅇ", "ㅜ"], hangul: "한우", meaning: "Korean beef" },
-  {
-    jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅎ", "ㅏ"],
-    hangul: "산하",
-    meaning: "under a mountain",
-  },
+  { jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅎ", "ㅏ"], hangul: "산하", meaning: "under a mountain" },
   { jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅅ", "ㅗ"], hangul: "산소", meaning: "grave" },
-  {
-    jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅈ", "ㅗ"],
-    hangul: "산조",
-    meaning: "sanjo (music)",
-  },
-  {
-    jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅊ", "ㅗ"],
-    hangul: "산초",
-    meaning: "schinus (tree)",
-  },
+  { jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅈ", "ㅗ"], hangul: "산조", meaning: "sanjo (music)" },
+  { jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅊ", "ㅗ"], hangul: "산초", meaning: "schinus (tree)" },
   { jamos: ["ㅅ", "ㅏ", "ㄴ", "ㅎ", "ㅗ"], hangul: "산호", meaning: "coral" },
-  {
-    jamos: ["ㅁ", "ㅏ", "ㄴ", "ㄷ", "ㅜ"],
-    hangul: "만두",
-    meaning: "dumpling",
-  },
+  { jamos: ["ㅁ", "ㅏ", "ㄴ", "ㄷ", "ㅜ"], hangul: "만두", meaning: "dumpling" },
   { jamos: ["ㅎ", "ㅏ", "ㄴ", "ㅡ", "ㄹ"], hangul: "하늘", meaning: "sky" },
   { jamos: ["ㄱ", "ㅜ", "ㄹ", "ㅡ", "ㅁ"], hangul: "구름", meaning: "cloud" },
   { jamos: ["ㅅ", "ㅣ", "ㄱ", "ㅏ", "ㄴ"], hangul: "시간", meaning: "time" },
@@ -127,38 +75,14 @@ const allWords: WordEntry[] = [
   { jamos: ["ㅇ", "ㅏ", "ㅊ", "ㅣ", "ㅁ"], hangul: "아침", meaning: "morning" },
   { jamos: ["ㄷ", "ㅜ", "ㅌ", "ㅗ", "ㅇ"], hangul: "두통", meaning: "headache" },
   // CVG-CV words (3 jamo + 2 jamo = 5 jamo total)
-  {
-    jamos: ["ㄱ", "ㅏ", "ㅇ", "ㄱ", "ㅏ"],
-    hangul: "강가",
-    meaning: "riverbank",
-  },
-  {
-    jamos: ["ㄱ", "ㅏ", "ㅇ", "ㅈ", "ㅗ"],
-    hangul: "강조",
-    meaning: "emphasis, stress",
-  },
-  {
-    jamos: ["ㄱ", "ㅏ", "ㅇ", "ㅎ", "ㅗ"],
-    hangul: "강호",
-    meaning: "martial arts world",
-  },
-  {
-    jamos: ["ㄱ", "ㅏ", "ㅇ", "ㅌ", "ㅗ"],
-    hangul: "강토",
-    meaning: "territory",
-  },
+  { jamos: ["ㄱ", "ㅏ", "ㅇ", "ㄱ", "ㅏ"], hangul: "강가", meaning: "riverbank" },
+  { jamos: ["ㄱ", "ㅏ", "ㅇ", "ㅈ", "ㅗ"], hangul: "강조", meaning: "emphasis, stress" },
+  { jamos: ["ㄱ", "ㅏ", "ㅇ", "ㅎ", "ㅗ"], hangul: "강호", meaning: "martial arts world" },
+  { jamos: ["ㄱ", "ㅏ", "ㅇ", "ㅌ", "ㅗ"], hangul: "강토", meaning: "territory" },
   { jamos: ["ㄱ", "ㅏ", "ㅇ", "ㅇ", "ㅜ"], hangul: "강우", meaning: "rain" },
   { jamos: ["ㅎ", "ㅏ", "ㅇ", "ㅅ", "ㅗ"], hangul: "항소", meaning: "appeal" },
-  {
-    jamos: ["ㅎ", "ㅏ", "ㅇ", "ㅈ", "ㅗ"],
-    hangul: "항조",
-    meaning: "Hyeongjo (king's era)",
-  },
-  {
-    jamos: ["ㅊ", "ㅏ", "ㅁ", "ㅈ", "ㅗ"],
-    hangul: "참조",
-    meaning: "reference",
-  },
+  { jamos: ["ㅎ", "ㅏ", "ㅇ", "ㅈ", "ㅗ"], hangul: "항조", meaning: "Hyeongjo (king's era)" },
+  { jamos: ["ㅊ", "ㅏ", "ㅁ", "ㅈ", "ㅗ"], hangul: "참조", meaning: "reference" },
   { jamos: ["ㅎ", "ㅏ", "ㄱ", "ㄱ", "ㅛ"], hangul: "학교", meaning: "school" },
   { jamos: ["ㅊ", "ㅣ", "ㄴ", "ㄱ", "ㅜ"], hangul: "친구", meaning: "friend" },
   { jamos: ["ㄱ", "ㅗ", "ㅇ", "ㅂ", "ㅜ"], hangul: "공부", meaning: "study" },
@@ -209,6 +133,16 @@ const allWords: WordEntry[] = [
   { jamos: ["ㅇ", "ㅢ", "ㅁ", "ㅣ"], hangul: "의미", meaning: "meaning" },
   { jamos: ["ㅇ", "ㅢ", "ㅈ", "ㅣ"], hangul: "의지", meaning: "will, intention" },
   { jamos: ["ㅇ", "ㅢ", "ㅁ", "ㅜ"], hangul: "의무", meaning: "duty, obligation" },
+  // CV-CGV / CVG-CV words with ㅠ
+  { jamos: ["ㅇ", "ㅠ", "ㅎ", "ㅏ", "ㄱ"], hangul: "유학", meaning: "study abroad" },
+  { jamos: ["ㄱ", "ㅠ", "ㅊ", "ㅣ", "ㄱ"], hangul: "규칙", meaning: "rule" },
+  { jamos: ["ㅇ", "ㅠ", "ㅊ", "ㅜ", "ㄹ"], hangul: "유출", meaning: "leak, outflow" },
+  { jamos: ["ㅇ", "ㅠ", "ㅇ", "ㅣ", "ㅂ"], hangul: "유입", meaning: "inflow" },
+  { jamos: ["ㅎ", "ㅠ", "ㅎ", "ㅏ", "ㄱ"], hangul: "휴학", meaning: "leave of absence from school" },
+  { jamos: ["ㅎ", "ㅠ", "ㅇ", "ㅣ", "ㄹ"], hangul: "휴일", meaning: "holiday" },
+  { jamos: ["ㅎ", "ㅠ", "ㅅ", "ㅣ", "ㄱ"], hangul: "휴식", meaning: "rest" },
+  { jamos: ["ㅇ", "ㅠ", "ㄱ", "ㄹ", "ㅠ"], hangul: "육류", meaning: "meat" },
+  { jamos: ["ㄱ", "ㅡ", "ㅂ", "ㅇ", "ㅠ"], hangul: "급유", meaning: "refueling" },
 ];
 
 /** Words that fit exactly 5 keyboard jamo slots after vowel decomposition */

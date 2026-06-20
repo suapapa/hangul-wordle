@@ -190,6 +190,25 @@ const allWords: WordEntry[] = [
   { jamos: ["ㄷ", "ㅏ", "ㅁ", "ㅇ", "ㅛ"], hangul: "담요", meaning: "blanket" },
   { jamos: ["ㅂ", "ㅕ", "ㄱ", "ㅈ", "ㅣ"], hangul: "벽지", meaning: "wallpaper" },
   { jamos: ["ㅂ", "ㅏ", "ㄹ", "ㅊ", "ㅣ"], hangul: "발치", meaning: "tooth extraction" },
+  // CV-C(compound) / C(compound)-CV words (4 jamo stored, 5 expanded)
+  { jamos: ["ㅅ", "ㅏ", "ㄱ", "ㅘ"], hangul: "사과", meaning: "apple" },
+  { jamos: ["ㄱ", "ㅘ", "ㅈ", "ㅏ"], hangul: "과자", meaning: "snack, sweets" },
+  { jamos: ["ㅎ", "ㅚ", "ㅅ", "ㅏ"], hangul: "회사", meaning: "company" },
+  { jamos: ["ㅊ", "ㅐ", "ㅅ", "ㅗ"], hangul: "채소", meaning: "vegetables" },
+  { jamos: ["ㅂ", "ㅐ", "ㅇ", "ㅜ"], hangul: "배우", meaning: "actor" },
+  { jamos: ["ㅂ", "ㅐ", "ㅊ", "ㅜ"], hangul: "배추", meaning: "napa cabbage" },
+  { jamos: ["ㅅ", "ㅐ", "ㅇ", "ㅜ"], hangul: "새우", meaning: "shrimp" },
+  { jamos: ["ㅈ", "ㅘ", "ㅇ", "ㅜ"], hangul: "좌우", meaning: "left and right" },
+  { jamos: ["ㅈ", "ㅘ", "ㅍ", "ㅛ"], hangul: "좌표", meaning: "coordinates" },
+  { jamos: ["ㄱ", "ㅛ", "ㅈ", "ㅐ"], hangul: "교재", meaning: "textbook" },
+  { jamos: ["ㄱ", "ㅛ", "ㅎ", "ㅚ"], hangul: "교회", meaning: "church" },
+  { jamos: ["ㄱ", "ㅐ", "ㅇ", "ㅛ"], hangul: "개요", meaning: "outline, summary" },
+  { jamos: ["ㅊ", "ㅚ", "ㄱ", "ㅗ"], hangul: "최고", meaning: "best" },
+  { jamos: ["ㅍ", "ㅖ", "ㄱ", "ㅣ"], hangul: "폐기", meaning: "disposal, discard" },
+  { jamos: ["ㅇ", "ㅢ", "ㅈ", "ㅏ"], hangul: "의자", meaning: "chair" },
+  { jamos: ["ㅇ", "ㅢ", "ㅁ", "ㅣ"], hangul: "의미", meaning: "meaning" },
+  { jamos: ["ㅇ", "ㅢ", "ㅈ", "ㅣ"], hangul: "의지", meaning: "will, intention" },
+  { jamos: ["ㅇ", "ㅢ", "ㅁ", "ㅜ"], hangul: "의무", meaning: "duty, obligation" },
 ];
 
 /** Words that fit exactly 5 keyboard jamo slots after vowel decomposition */

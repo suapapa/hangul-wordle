@@ -34,6 +34,7 @@ export function Board({ state }: BoardProps) {
           row={row}
           isCurrent={rowIndex === state.currentRow}
           isAnimating={state.animating && rowIndex < state.guesses.length}
+          isShaking={state.shaking && rowIndex === state.currentRow}
           animationDelays={state.animationDelays}
         />
       ))}

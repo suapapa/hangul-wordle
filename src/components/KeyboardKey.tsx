@@ -3,9 +3,11 @@ interface KeyboardKeyProps {
   color: string;
   onClick: () => void;
   large?: boolean;
+  expand?: boolean;
+  ariaLabel?: string;
 }
 
-export function KeyboardKey({ label, color, onClick, large = false }: KeyboardKeyProps) {
+export function KeyboardKey({ label, color, onClick, large = false, expand = false, ariaLabel }: KeyboardKeyProps) {
   let bgClass = 'bg-game-key';
   let textColor = 'text-game-bg';
   
@@ -27,15 +29,24 @@ export function KeyboardKey({ label, color, onClick, large = false }: KeyboardKe
       textColor = 'text-game-bg';
   }
   
+  const sizeClass = large
+    ? 'min-h-[44px] min-w-[56px] px-4 sm:px-5 py-3 sm:py-3.5 text-sm sm:text-base'
+    : expand
+      ? 'flex-1 min-w-0 min-h-[44px] sm:min-h-[48px] py-3.5 sm:py-4 text-base sm:text-lg'
+      : 'px-2 sm:px-3 py-3 sm:py-3.5 text-sm sm:text-base';
+
   return (
     <button
+      type="button"
       onClick={onClick}
+      aria-label={ariaLabel}
       className={`
-        ${large ? 'px-3 sm:px-4' : 'px-2 sm:px-3'} py-3 sm:py-3.5
-        rounded font-semibold text-sm sm:text-base
+        interactive-focus
+        ${sizeClass}
+        rounded font-semibold
         transition-all duration-150
         ${bgClass} ${textColor}
-        active:scale-95
+        active:scale-95 active:brightness-90
         select-none
       `}
     >

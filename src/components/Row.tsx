@@ -5,15 +5,15 @@ interface RowProps {
   row: GuessRow;
   isCurrent: boolean;
   isAnimating: boolean;
+  isShaking: boolean;
   animationDelays: number[];
 }
 
-export function Row({ row, isCurrent, isAnimating, animationDelays }: RowProps) {
-  // Determine animation flag for each cell
+export function Row({ row, isCurrent, isAnimating, isShaking, animationDelays }: RowProps) {
   const shouldAnimate = isCurrent ? false : isAnimating || row.results.some(r => r !== undefined);
   
   return (
-    <div className="flex gap-[6px] sm:gap-[7px] justify-center">
+    <div className={`flex gap-[6px] sm:gap-[7px] justify-center ${isShaking ? 'animate-shake' : ''}`}>
       {row.slots.map((slot, index) => {
         const evaluation = row.results[index] as Evaluation | undefined;
         const value = slot || (isCurrent ? '' : '');

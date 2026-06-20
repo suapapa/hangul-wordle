@@ -27,13 +27,13 @@ function App() {
       if (state.status === 'won') {
         const messages = ['일등!', '완벽!', '훌륭해요!', '대단해요!', '아쉬워요...', '아직 남았어요!'];
         setModalData({
-          title: '🎉 정답!',
+          title: '정답!',
           message: messages[Math.min(state.guesses.length - 1, 5)],
           buttonText: '다음 게임',
         });
       } else {
         setModalData({
-          title: '💨 아깝다...',
+          title: '아깝다...',
           message: `정답: ${state.display}`,
           buttonText: '다시 시도',
         });
@@ -118,15 +118,15 @@ function App() {
             <div className="space-y-2 text-sm sm:text-base">
               <p className="font-semibold">색상 안내</p>
               <div className="flex items-center gap-2">
-                <span className="inline-block w-8 h-8 rounded bg-game-correct shrink-0" />
+                <span className="inline-block w-8 h-8 rounded bg-game-correct shrink-0" aria-hidden="true" />
                 <span>초록 — 위치와 자모 모두 정답</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-block w-8 h-8 rounded bg-game-present shrink-0" />
+                <span className="inline-block w-8 h-8 rounded bg-game-present shrink-0" aria-hidden="true" />
                 <span>노랑 — 자모는 맞지만 위치가 다름</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-block w-8 h-8 rounded bg-game-absent shrink-0" />
+                <span className="inline-block w-8 h-8 rounded bg-game-absent shrink-0" aria-hidden="true" />
                 <span>회색 — 정답에 없는 자모</span>
               </div>
             </div>
@@ -134,6 +134,7 @@ function App() {
         }
         buttonText="닫기"
         onButtonClick={() => setShowRulesModal(false)}
+        onDismiss={() => setShowRulesModal(false)}
         variant="info"
       />
     </div>

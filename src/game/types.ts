@@ -29,6 +29,8 @@ export interface GameState {
   status: GameStatus;
   /** Whether a flip animation is active */
   animating: boolean;
+  /** Whether the current row is shaking (invalid/incomplete submit) */
+  shaking: boolean;
   /** Animation delays for staggered flip effect */
   animationDelays: number[];
   /** Last used key (for keyboard highlighting) */

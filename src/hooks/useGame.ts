@@ -2,6 +2,7 @@ import { useReducer, useCallback, useEffect, useRef } from 'react';
 import type { GameState, Evaluation, GuessRow, Seed } from '../game/types.js';
 import { evaluate } from '../game/engine.js';
 import { expandJamos, isKeyboardKey } from '../game/jamo.js';
+import { getRandomWord } from '../game/dictionary.js';
 
 // Animation timing (ms)
 const FLIP_DURATION = 500;
@@ -15,7 +16,8 @@ type GameAction =
   | { type: 'SUBMIT' }
   | { type: 'NEW_GAME'; seed: Seed; display: string }
   | { type: 'REVEAL_ROW' }
-  | { type: 'SET_ANIMATING'; value: boolean };
+  | { type: 'SET_ANIMATING'; value: boolean }
+  | { type: 'SHAKE_END' };
 
 function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
@@ -48,7 +50,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     
     case 'SUBMIT': {
       if (state.status !== 'playing' || state.animating) return state;
-      if (state.currentInput.length < 5) return state;
+      if (state.currentInput.length < 5) {
+        return { ...state, shaking: true };
+      }
       
       const guessSlots = [...state.currentInput];
       const results = evaluate(guessSlots, state.seed);
@@ -88,6 +92,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         animating: action.value,
       };
     
+    case 'SHAKE_END':
+      return {
+        ...state,
+        shaking: false,
+      };
+
     case 'NEW_GAME':
       return {
         seed: action.seed,
@@ -98,6 +108,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         currentInput: [],
         status: 'playing' as const,
         animating: false,
+        shaking: false,
         animationDelays: [],
         lastUsedKey: null,
         lastKeyEvaluation: null,
@@ -121,6 +132,7 @@ export function useGame() {
     currentInput: [] as string[],
     status: 'playing' as const,
     animating: false,
+    shaking: false,
     animationDelays: [] as number[],
     lastUsedKey: null,
     lastKeyEvaluation: null,
@@ -130,10 +142,8 @@ export function useGame() {
   
   // Initialize game with a random word
   useEffect(() => {
-    import('../game/dictionary.js').then(mod => {
-      const word = mod.getRandomWord();
-      dispatch({ type: 'NEW_GAME', seed: expandJamos(word.jamos), display: word.hangul });
-    });
+    const word = getRandomWord();
+    dispatch({ type: 'NEW_GAME', seed: expandJamos(word.jamos), display: word.hangul });
   }, []);
   
   // Clean up animation timeout on unmount
@@ -153,6 +163,16 @@ export function useGame() {
       }, FLIP_DURATION + 300);
     }
   }, [state.animating]);
+
+  useEffect(() => {
+    if (!state.shaking) return;
+
+    const timeout = setTimeout(() => {
+      dispatch({ type: 'SHAKE_END' });
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [state.shaking]);
   
   const pressKey = useCallback((key: string) => {
     dispatch({ type: 'PRESS_KEY', key });
@@ -167,10 +187,8 @@ export function useGame() {
   }, []);
   
   const newGame = useCallback(() => {
-    import('../game/dictionary.js').then(mod => {
-      const word = mod.getRandomWord();
-      dispatch({ type: 'NEW_GAME', seed: expandJamos(word.jamos), display: word.hangul });
-    });
+    const word = getRandomWord();
+    dispatch({ type: 'NEW_GAME', seed: expandJamos(word.jamos), display: word.hangul });
   }, []);
   
   // Get keyboard colors from game state

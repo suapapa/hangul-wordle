@@ -1,6 +1,7 @@
 import { useReducer, useCallback, useEffect, useRef } from 'react';
-import type { GameState, Evaluation, GuessRow, Seed, WordEntry } from '../game/types.js';
+import type { GameState, Evaluation, GuessRow, Seed } from '../game/types.js';
 import { evaluate } from '../game/engine.js';
+import { expandJamos, isKeyboardKey } from '../game/jamo.js';
 
 // Animation timing (ms)
 const FLIP_DURATION = 500;
@@ -21,6 +22,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'PRESS_KEY': {
       if (state.status !== 'playing' || state.animating) return state;
       if (state.currentSlot >= 5) return state;
+      if (!isKeyboardKey(action.key)) return state;
       
       const newInput = [...state.currentInput, action.key];
       const newSlot = Math.min(state.currentSlot + 1, 4);
@@ -130,7 +132,7 @@ export function useGame() {
   useEffect(() => {
     import('../game/dictionary.js').then(mod => {
       const word = mod.getRandomWord();
-      dispatch({ type: 'NEW_GAME', seed: word.jamos, display: word.hangul });
+      dispatch({ type: 'NEW_GAME', seed: expandJamos(word.jamos), display: word.hangul });
     });
   }, []);
   
@@ -167,7 +169,7 @@ export function useGame() {
   const newGame = useCallback(() => {
     import('../game/dictionary.js').then(mod => {
       const word = mod.getRandomWord();
-      dispatch({ type: 'NEW_GAME', seed: word.jamos, display: word.hangul });
+      dispatch({ type: 'NEW_GAME', seed: expandJamos(word.jamos), display: word.hangul });
     });
   }, []);
   
@@ -204,12 +206,4 @@ export function useGame() {
     keyboardColors,
     newGame,
   };
-}
-
-// Get all valid keys that should appear on the keyboard
-function getValidKeys(): string[] {
-  // Korean jamo (consonants and vowels)
-  const consonants = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
-  const vowels = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'];
-  return [...consonants, ...vowels];
 }

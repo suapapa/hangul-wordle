@@ -1,4 +1,5 @@
 import { KeyboardKey } from './KeyboardKey.js';
+import { KEYBOARD_CONSONANTS, KEYBOARD_VOWELS } from '../game/jamo.js';
 import type { Evaluation } from '../game/types.js';
 
 interface KeyboardProps {
@@ -8,10 +9,9 @@ interface KeyboardProps {
   colors: Record<string, Evaluation | 'unknown'>;
 }
 
-// Korean keyboard layout (similar to QWERTY but with Korean jamo)
 const keyboardLayout = [
-  ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'],
-  ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ', 'ㅡ', 'ㅣ'],
+  [...KEYBOARD_CONSONANTS],
+  [...KEYBOARD_VOWELS],
 ];
 
 export function Keyboard({ onKeyPress, onDelete, onEnter, colors }: KeyboardProps) {

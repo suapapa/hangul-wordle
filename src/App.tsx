@@ -4,6 +4,7 @@ import { Board } from './components/Board.js';
 import { Keyboard } from './components/Keyboard.js';
 import { Modal } from './components/Modal.js';
 import { useGame } from './hooks/useGame.js';
+import { isKeyboardKey } from './game/jamo.js';
 import './styles/globals.css';
 
 function App() {
@@ -61,9 +62,7 @@ function App() {
         return;
       }
       
-      // Match Korean jamo
-      const jamoPattern = /^[ㄱ-ㅎㅏ-ㅣ]$/;
-      if (jamoPattern.test(key)) {
+      if (isKeyboardKey(key)) {
         pressKey(key);
       }
     }

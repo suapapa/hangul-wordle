@@ -1,9 +1,8 @@
 import type { WordEntry } from './types.js';
+import { expandJamos, isPlayableWord } from './jamo.js';
 
-// Real Korean words with exactly 5 jamo (자음+모음 5개)
-// Pattern: CV(2 jamo) + CVG(3 jamo) or CVG(3 jamo) + CV(2 jamo)
-// All words verified as actual Korean vocabulary
-export const words: WordEntry[] = [
+// Korean words; filtered below to those that fit 5 basic jamo slots
+const allWords: WordEntry[] = [
   // CV-CGV words (2 syllable, 5 jamo total)
   { jamos: ["ㅂ", "ㅜ", "ㅂ", "ㅜ", "ㄴ"], hangul: "부분", meaning: "part, portion" },
   { jamos: ["ㄱ", "ㅏ", "ㅍ", "ㅏ", "ㄴ"], hangul: "간판", meaning: "signboard" },
@@ -197,13 +196,17 @@ export const words: WordEntry[] = [
   { jamos: ["ㅍ", "ㅏ", "ㄱ", "ㅣ"], hangul: "팝이", meaning: "Popi (name)" },
 ];
 
+/** Words that fit exactly 5 keyboard jamo slots after vowel decomposition */
+export const words = allWords.filter((word) => isPlayableWord(word.jamos));
+
 /** Select a random word from the dictionary */
 export function getRandomWord(): WordEntry {
   const index = Math.floor(Math.random() * words.length);
   return words[index];
 }
 
-/** Validate that a jamo sequence forms a valid word */
-export function isValidWord(jamos: string): boolean {
-  return words.some(w => w.jamos.join('') === jamos);
+/** Validate that a basic jamo sequence forms a valid word */
+export function isValidWord(jamos: string[]): boolean {
+  const input = jamos.join('');
+  return words.some((word) => expandJamos(word.jamos).join('') === input);
 }

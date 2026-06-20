@@ -3,6 +3,7 @@ import { Header } from './components/Header.js';
 import { Board } from './components/Board.js';
 import { Keyboard } from './components/Keyboard.js';
 import { Modal } from './components/Modal.js';
+import { WinModal } from './components/WinModal.js';
 import { useGame } from './hooks/useGame.js';
 import { isKeyboardKey } from './game/jamo.js';
 import './styles/globals.css';
@@ -17,33 +18,9 @@ function App() {
     newGame,
   } = useGame();
   
-  const [showModal, setShowModal] = useState(false);
   const [showRulesModal, setShowRulesModal] = useState(false);
-  const [modalData, setModalData] = useState({ title: '', message: '', buttonText: '' });
-  
-  // Show modal when game ends
-  useEffect(() => {
-    if (state.status === 'won' || state.status === 'lost') {
-      if (state.status === 'won') {
-        const messages = ['일등!', '완벽!', '훌륭해요!', '대단해요!', '해냈어요!'];
-        setModalData({
-          title: '정답!',
-          message: messages[state.guesses.length - 1],
-          buttonText: '다음 게임',
-        });
-      } else {
-        setModalData({
-          title: '아깝다...',
-          message: `정답: ${state.display}`,
-          buttonText: '다시 시도',
-        });
-      }
-      setShowModal(true);
-    }
-  }, [state.status, state.guesses.length, state.display]);
-  
+
   const handleNewGame = () => {
-    setShowModal(false);
     newGame();
   };
   
@@ -93,14 +70,21 @@ function App() {
         colors={colors}
       />
       
-      {/* Game end modal */}
+      <WinModal
+        isOpen={state.status === 'won'}
+        word={state.display}
+        guesses={state.guesses}
+        onNewGame={handleNewGame}
+      />
+
+      {/* Game end modal (lose) */}
       <Modal
-        isOpen={showModal}
-        title={modalData.title}
-        message={modalData.message}
-        buttonText={modalData.buttonText}
+        isOpen={state.status === 'lost'}
+        title="아깝다..."
+        message={`정답: ${state.display}`}
+        buttonText="다시 시도"
         onButtonClick={handleNewGame}
-        variant={state.status === 'won' ? 'win' : 'lose'}
+        variant="lose"
       />
 
       {/* Rules modal */}

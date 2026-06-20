@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* Custom variables & animations for Hangul Wordle */
+@theme {
+  --color-game-bg: #121213;
+  --color-game-surface: #1a1a1b;
+  --color-game-border: #3a3a3c;
+  --color-game-text: #ffffff;
+  --color-game-muted: #818384;
+  --color-game-accent: #53ff32;
+  --color-game-gold: #c9b458;
+  --color-game-correct: #538d4e;
+  --color-game-present: #b59f3b;
+  --color-game-absent: #3a3a3c;
+  --color-game-key: #dcdcdc;
+  --color-game-key-active: #818384;
+  --color-game-overlay: rgba(0, 0, 0, 0.75);
+
+  --font-display: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+
+  --animate-flip: flip 0.5s ease-in-out forwards;
+  --animate-bounce-cell: bounceCell 0.5s ease-in-out forwards;
+  --animate-scale-in: scaleIn 0.1s ease-out forwards;
+  --animate-shake: shake 0.5s ease-in-out;
+  --animate-confetti: confetti 0.8s ease-out forwards;
+
+  @keyframes flip {
+    0% { transform: rotateX(0); }
+    50% { transform: rotateX(90deg); }
+    100% { transform: rotateX(0); }
+  }
+
+  @keyframes bounceCell {
+    0%, 40% { transform: translateY(0); }
+    20% { transform: translateY(-20px); }
+    60%, 100% { transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(0.8); }
+    to { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+  }
+
+  @keyframes confetti {
+    0% { transform: scale(0) rotate(0deg); opacity: 1; }
+    50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+    100% { transform: scale(1) rotate(360deg); opacity: 0; }
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-game-bg);
+  color: var(--color-game-text);
+  font-family: var(--font-display);
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+/* Prevent zoom on double tap */
+@media (pointer: coarse) {
+  * {
+    touch-action: manipulation;
+  }
+}

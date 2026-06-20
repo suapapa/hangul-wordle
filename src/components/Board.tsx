@@ -14,7 +14,10 @@ export function Board({ state }: BoardProps) {
     } else if (i === state.currentRow) {
       // Current row - empty with input
       rows.push({
-        slots: [...state.currentInput, ...Array(5 - state.currentInput.length).fill('')],
+        slots: [
+          ...state.currentInput.slice(0, 5),
+          ...Array(Math.max(0, 5 - state.currentInput.length)).fill(''),
+        ],
         results: Array(5).fill(undefined) as any,
       });
     } else {

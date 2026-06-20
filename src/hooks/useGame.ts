@@ -23,11 +23,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'PRESS_KEY': {
       if (state.status !== 'playing' || state.animating) return state;
-      if (state.currentSlot >= 5) return state;
       if (!isKeyboardKey(action.key)) return state;
+      if (state.currentInput.length >= 5) {
+        return { ...state, shaking: true };
+      }
       
       const newInput = [...state.currentInput, action.key];
-      const newSlot = Math.min(state.currentSlot + 1, 4);
+      const newSlot = newInput.length - 1;
       
       return {
         ...state,
@@ -38,13 +40,15 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     
     case 'DELETE_KEY': {
       if (state.status !== 'playing' || state.animating) return state;
-      if (state.currentInput.length === 0) return state;
+      if (state.currentInput.length === 0) {
+        return { ...state, shaking: true };
+      }
       
       const newInput = state.currentInput.slice(0, -1);
       return {
         ...state,
         currentInput: newInput,
-        currentSlot: Math.max(state.currentSlot - 1, 0),
+        currentSlot: newInput.length - 1,
       };
     }
     

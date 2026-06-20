@@ -25,10 +25,10 @@ function App() {
   useEffect(() => {
     if (state.status === 'won' || state.status === 'lost') {
       if (state.status === 'won') {
-        const messages = ['일등!', '완벽!', '훌륭해요!', '대단해요!', '아쉬워요...', '아직 남았어요!'];
+        const messages = ['일등!', '완벽!', '훌륭해요!', '대단해요!', '해냈어요!'];
         setModalData({
           title: '정답!',
-          message: messages[Math.min(state.guesses.length - 1, 5)],
+          message: messages[state.guesses.length - 1],
           buttonText: '다음 게임',
         });
       } else {

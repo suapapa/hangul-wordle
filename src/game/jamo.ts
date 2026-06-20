@@ -1,5 +1,5 @@
 /** Vowel keys shown on the keyboard */
-export const KEYBOARD_VOWELS = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅣ'] as const;
+export const KEYBOARD_VOWELS = ['ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅡ', 'ㅣ'] as const;
 
 /** Consonant keys shown on the keyboard */
 export const KEYBOARD_CONSONANTS = [

@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# 한글 단어 맞추기 (Hangul Wordle)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Wordle을 한글에 맞게 만든 웹 게임입니다. 2음절 한글 단어를 자모 단위로 맞히며, 5번의 기회 안에 정답을 찾아야 합니다.
 
-Currently, two official plugins are available:
+## 게임 방법
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 정답은 **2음절 한글 단어**이며, 자모를 펼치면 **5칸**이 됩니다.
+- 한 줄에 자모 5개를 입력한 뒤 **Enter(↵)** 로 제출합니다.
+- 최대 **5번** 시도할 수 있습니다.
 
-## React Compiler
+### 입력 방식
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 화면의 한글 자판이나 물리 키보드로 자모를 입력합니다.
+- 복합모음(ㅘ, ㅐ, ㅚ 등)은 기본 모음 조합으로 입력됩니다.
+  - 예: `ㅘ` → `ㅗ` + `ㅏ`, `ㅐ` → `ㅏ` + `ㅣ`
 
-## Expanding the ESLint configuration
+### 색상 안내
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| 색상 | 의미 |
+|------|------|
+| 🟩 초록 | 위치와 자모 모두 정답 |
+| 🟨 노랑 | 자모는 맞지만 위치가 다름 |
+| ⬜ 회색 | 정답에 없는 자모 |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 실행 방법
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+# 의존성 설치
+npm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 개발 서버 실행 (http://localhost:5173)
+npm run dev
+
+# 프로덕션 빌드
+npm run build
+
+# 빌드 결과 미리보기
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 기술 스택
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- [React](https://react.dev/) 19 + [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/)
+- [Tailwind CSS](https://tailwindcss.com/) 4
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 프로젝트 구조
+
 ```
+src/
+├── App.tsx              # 앱 레이아웃, 모달, 키보드 이벤트
+├── components/          # UI 컴포넌트 (보드, 자판, 모달 등)
+├── game/
+│   ├── dictionary.ts    # 단어 사전
+│   ├── engine.ts        # 추측 결과 판정 로직
+│   ├── jamo.ts          # 자모·복합모음 처리
+│   └── types.ts         # 타입 정의
+├── hooks/
+│   └── useGame.ts       # 게임 상태 관리
+└── styles/
+    └── globals.css      # 전역 스타일
+```
+
+## 단어 사전
+
+`src/game/dictionary.ts`에 2음절 한글 단어가 등록되어 있습니다. 복합모음을 기본 자모로 펼쳤을 때 정확히 5칸이 되는 단어만 게임에 사용됩니다.
+
+새 단어를 추가하려면 `jamos`(자모 배열), `hangul`(표기), `meaning`(뜻)을 함께 넣어 주세요.
+
+## 라이선스
+
+개인 프로젝트입니다.

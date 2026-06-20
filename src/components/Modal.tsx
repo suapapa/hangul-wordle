@@ -1,7 +1,9 @@
+import type { ReactNode } from 'react';
+
 interface ModalProps {
   isOpen: boolean;
   title: string;
-  message: string;
+  message: ReactNode;
   buttonText: string;
   onButtonClick: () => void;
   variant?: 'win' | 'lose' | 'info';
@@ -26,9 +28,9 @@ export function Modal({ isOpen, title, message, buttonText, onButtonClick, varia
         <h2 className={`text-2xl sm:text-3xl font-bold mb-3 ${titleColor} text-center`}>
           {title}
         </h2>
-        <p className="text-game-text text-center mb-6 text-base sm:text-lg">
+        <div className="text-game-text text-left mb-6 text-base sm:text-lg leading-relaxed">
           {message}
-        </p>
+        </div>
         <button
           onClick={onButtonClick}
           className="w-full py-3 rounded-lg bg-game-correct text-white font-bold text-lg hover:bg-opacity-90 transition-colors"

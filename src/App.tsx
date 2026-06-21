@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Header } from './components/Header.js';
 import { Board } from './components/Board.js';
 import { Keyboard } from './components/Keyboard.js';
+import { GuessHistoryMini } from './components/GuessHistoryMini.js';
 import { Modal } from './components/Modal.js';
 import { WinModal } from './components/WinModal.js';
 import { useGame } from './hooks/useGame.js';
@@ -81,7 +82,12 @@ function App() {
       <Modal
         isOpen={state.status === 'lost'}
         title="아깝다..."
-        message={`정답: ${state.display}`}
+        message={
+          <div className="space-y-5">
+            <GuessHistoryMini guesses={state.guesses} />
+            <p className="text-center font-semibold">{`정답: ${state.display}`}</p>
+          </div>
+        }
         buttonText="다시 시도"
         onButtonClick={handleNewGame}
         variant="lose"

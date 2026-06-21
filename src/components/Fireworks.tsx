@@ -38,7 +38,7 @@ function createBurst(x: number, y: number, hue: number, particles: Particle[]): 
       life: 0,
       maxLife: randomBetween(50, 90),
       hue: hue + randomBetween(-15, 15),
-      size: randomBetween(1.5, 3),
+      size: randomBetween(4, 8),
     });
   }
 }
@@ -97,7 +97,7 @@ export function Fireworks() {
         rocket.vy += 0.12;
 
         ctx.beginPath();
-        ctx.arc(rocket.x, rocket.y, 2, 0, Math.PI * 2);
+        ctx.arc(rocket.x, rocket.y, 4, 0, Math.PI * 2);
         ctx.fillStyle = `hsl(${rocket.hue}, 100%, 70%)`;
         ctx.fill();
 
@@ -121,10 +121,13 @@ export function Fireworks() {
           continue;
         }
 
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = `hsla(${p.hue}, 100%, 65%, ${alpha * 0.8})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 100%, 65%, ${alpha})`;
+        ctx.fillStyle = `hsla(${p.hue}, 100%, 70%, ${alpha})`;
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
 
       animationId = window.requestAnimationFrame(tick);
@@ -141,7 +144,7 @@ export function Fireworks() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-40"
+      className="pointer-events-none fixed inset-0 z-[60]"
       aria-hidden="true"
     />
   );

@@ -30,7 +30,6 @@ export function WinModal({ isOpen, word, guesses, onNewGame }: WinModalProps) {
 
   return (
     <>
-      <Fireworks />
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-game-overlay p-4"
         role="presentation"
@@ -66,6 +65,7 @@ export function WinModal({ isOpen, word, guesses, onNewGame }: WinModalProps) {
           </button>
         </div>
       </div>
+      <Fireworks />
     </>
   );
 }

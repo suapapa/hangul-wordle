@@ -3,24 +3,35 @@ import type { GuessRow, Evaluation } from '../game/types.js';
 
 interface RowProps {
   row: GuessRow;
+  rowIndex: number;
   isCurrent: boolean;
   isAnimating: boolean;
   isShaking: boolean;
   animationDelays: number[];
 }
 
-export function Row({ row, isCurrent, isAnimating, isShaking, animationDelays }: RowProps) {
-  const shouldAnimate = isCurrent ? false : isAnimating || row.results.some(r => r !== undefined);
-  
+export function Row({
+  row,
+  rowIndex,
+  isCurrent,
+  isAnimating,
+  isShaking,
+  animationDelays,
+}: RowProps) {
+  const shouldAnimate = isCurrent ? false : isAnimating || row.results.some((r) => r !== undefined);
+
   return (
-    <div className={`flex gap-[6px] sm:gap-[7px] justify-center ${isShaking ? 'animate-shake' : ''}`}>
+    <div
+      role="row"
+      aria-rowindex={rowIndex + 1}
+      className={`flex gap-[6px] sm:gap-[7px] justify-center ${isShaking ? 'animate-shake' : ''}`}
+    >
       {row.slots.map((slot, index) => {
         const evaluation = row.results[index] as Evaluation | undefined;
         const value = slot || (isCurrent ? '' : '');
-        
-        // In current row, show empty cells as inactive
-        const isActive = isCurrent && index < row.slots.length;
-        
+        const filledCount = row.slots.filter((s) => s !== '').length;
+        const isActive = isCurrent && index === filledCount && filledCount < 5;
+
         return (
           <Cell
             key={index}
@@ -29,6 +40,7 @@ export function Row({ row, isCurrent, isAnimating, isShaking, animationDelays }:
             animate={shouldAnimate}
             delay={shouldAnimate ? animationDelays[index] : 0}
             isActive={isActive}
+            colIndex={index}
           />
         );
       })}

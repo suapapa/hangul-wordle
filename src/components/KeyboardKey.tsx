@@ -25,9 +25,9 @@ export function KeyboardKey({
   className = '',
   style,
 }: KeyboardKeyProps) {
-  let bgClass = 'bg-game-key';
-  let textColor = 'text-game-bg';
-  
+  let bgClass: string;
+  let textColor: string;
+
   switch (color) {
     case 'correct':
       bgClass = 'bg-game-correct';
@@ -39,7 +39,7 @@ export function KeyboardKey({
       break;
     case 'absent':
       bgClass = 'bg-game-absent';
-      textColor = 'text-game-muted';
+      textColor = 'text-white';
       break;
     default:
       bgClass = 'bg-game-key';

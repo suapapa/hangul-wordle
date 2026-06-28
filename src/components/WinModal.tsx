@@ -1,5 +1,6 @@
-import { useEffect, useId } from 'react';
+import { useId, useRef } from 'react';
 import type { GuessRow } from '../game/types.js';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 import { Fireworks } from './Fireworks.js';
 import { GuessHistoryMini } from './GuessHistoryMini.js';
 
@@ -12,19 +13,9 @@ interface WinModalProps {
 
 export function WinModal({ isOpen, word, guesses, onNewGame }: WinModalProps) {
   const titleId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        onNewGame();
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onNewGame]);
+  useFocusTrap(isOpen, dialogRef);
 
   if (!isOpen) return null;
 
@@ -35,10 +26,11 @@ export function WinModal({ isOpen, word, guesses, onNewGame }: WinModalProps) {
         role="presentation"
       >
         <div
+          ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
-          className="bg-game-surface rounded-xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-game-border animate-scale-in"
+          className="bg-game-surface rounded-xl p-6 sm:p-8 max-w-sm w-full border border-game-border animate-scale-in"
           onClick={(e) => e.stopPropagation()}
         >
           <h2

@@ -37,6 +37,8 @@ export interface GameState {
   lastUsedKey: string | null;
   /** Last used key evaluation */
   lastKeyEvaluation: Evaluation | null;
+  /** Screen reader announcement for game events */
+  announcement: string;
 }
 
 export type Seed = string[];

@@ -54,6 +54,10 @@ function App() {
   
   return (
     <div className="flex flex-col h-full min-h-[100dvh] bg-game-bg">
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {state.announcement}
+      </div>
+
       {/* Header */}
       <Header
         title="한글 단어 맞추기"
@@ -90,6 +94,7 @@ function App() {
         }
         buttonText="다시 시도"
         onButtonClick={handleNewGame}
+        onDismiss={handleNewGame}
         variant="lose"
       />
 

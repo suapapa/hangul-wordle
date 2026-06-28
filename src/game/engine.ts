@@ -1,4 +1,4 @@
-import type { Evaluation, Seed, GuessRow } from './types.js';
+import type { Evaluation, Seed } from './types.js';
 
 /**
  * Evaluate a guess against the seed word.

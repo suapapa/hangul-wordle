@@ -1,4 +1,5 @@
-import { useEffect, useId, type ReactNode } from 'react';
+import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,6 +21,9 @@ export function Modal({
   variant = 'info',
 }: ModalProps) {
   const titleId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(isOpen, dialogRef);
 
   useEffect(() => {
     if (!isOpen || !onDismiss) return;
@@ -50,10 +54,11 @@ export function Modal({
       role="presentation"
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="bg-game-surface rounded-xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-game-border"
+        className="bg-game-surface rounded-xl p-6 sm:p-8 max-w-sm w-full border border-game-border"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 id={titleId} className={`text-2xl sm:text-3xl font-bold mb-3 ${titleColor} text-center`}>

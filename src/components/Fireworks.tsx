@@ -16,29 +16,31 @@ interface Rocket {
   y: number;
   vy: number;
   hue: number;
-  exploded: boolean;
 }
 
 const FIREWORK_HUES = [120, 45, 200, 330, 180, 60];
+const MAX_PARTICLES = 80;
+const MAX_ROCKETS = 4;
 
 function randomBetween(min: number, max: number): number {
   return min + Math.random() * (max - min);
 }
 
 function createBurst(x: number, y: number, hue: number, particles: Particle[]): void {
-  const count = 28 + Math.floor(Math.random() * 12);
+  const count = 18 + Math.floor(Math.random() * 8);
   for (let i = 0; i < count; i++) {
+    if (particles.length >= MAX_PARTICLES) break;
     const angle = (Math.PI * 2 * i) / count + randomBetween(-0.15, 0.15);
-    const speed = randomBetween(1.5, 4.5);
+    const speed = randomBetween(1.5, 4);
     particles.push({
       x,
       y,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
       life: 0,
-      maxLife: randomBetween(50, 90),
+      maxLife: randomBetween(40, 70),
       hue: hue + randomBetween(-15, 15),
-      size: randomBetween(4, 8),
+      size: randomBetween(3, 6),
     });
   }
 }
@@ -70,16 +72,16 @@ export function Fireworks() {
     window.addEventListener('resize', resize);
 
     const spawnRocket = () => {
+      if (rockets.length >= MAX_ROCKETS) return;
       rockets.push({
         x: randomBetween(canvas.width * 0.15, canvas.width * 0.85),
         y: canvas.height,
         vy: randomBetween(-7, -10),
         hue: FIREWORK_HUES[Math.floor(Math.random() * FIREWORK_HUES.length)],
-        exploded: false,
       });
     };
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       spawnRocket();
     }
 
@@ -87,7 +89,7 @@ export function Fireworks() {
       frame += 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (frame % 18 === 0 && rockets.length < 6) {
+      if (frame % 24 === 0) {
         spawnRocket();
       }
 
@@ -97,7 +99,7 @@ export function Fireworks() {
         rocket.vy += 0.12;
 
         ctx.beginPath();
-        ctx.arc(rocket.x, rocket.y, 4, 0, Math.PI * 2);
+        ctx.arc(rocket.x, rocket.y, 3, 0, Math.PI * 2);
         ctx.fillStyle = `hsl(${rocket.hue}, 100%, 70%)`;
         ctx.fill();
 
@@ -121,13 +123,10 @@ export function Fireworks() {
           continue;
         }
 
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = `hsla(${p.hue}, 100%, 65%, ${alpha * 0.8})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = `hsla(${p.hue}, 100%, 70%, ${alpha})`;
         ctx.fill();
-        ctx.shadowBlur = 0;
       }
 
       animationId = window.requestAnimationFrame(tick);

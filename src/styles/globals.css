@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+@import '@fontsource/noto-sans-kr/400.css';
+@import '@fontsource/noto-sans-kr/500.css';
+@import '@fontsource/noto-sans-kr/700.css';
 @import "tailwindcss";
 
 /* Custom variables & animations for Hangul Wordle */
@@ -11,7 +13,7 @@
   --color-game-accent: #53ff32;
   --color-game-gold: #c9b458;
   --color-game-correct: #538d4e;
-  --color-game-present: #b59f3b;
+  --color-game-present: #857000;
   --color-game-absent: #3a3a3c;
   --color-game-key: #dcdcdc;
   --color-game-key-active: #818384;
@@ -20,7 +22,7 @@
   --font-display: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
 
   --animate-flip: flip 0.5s ease-in-out forwards;
-  --animate-bounce-cell: bounceCell 0.5s ease-in-out forwards;
+  --animate-pop-cell: popCell 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   --animate-scale-in: scaleIn 0.1s ease-out forwards;
   --animate-shake: shake 0.5s ease-in-out;
   --animate-confetti: confetti 0.8s ease-out forwards;
@@ -31,10 +33,10 @@
     100% { transform: rotateX(0); }
   }
 
-  @keyframes bounceCell {
-    0%, 40% { transform: translateY(0); }
-    20% { transform: translateY(-20px); }
-    60%, 100% { transform: translateY(0); }
+  @keyframes popCell {
+    0% { transform: translateY(0); }
+    40% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
   }
 
   @keyframes scaleIn {
@@ -82,4 +84,16 @@ body {
 
 .interactive-focus {
   @apply cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-game-accent focus-visible:ring-offset-2 focus-visible:ring-offset-game-bg;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

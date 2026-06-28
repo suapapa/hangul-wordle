@@ -7,6 +7,23 @@ import { getRandomWord } from '../game/dictionary.js';
 // Animation timing (ms)
 const FLIP_DURATION = 500;
 
+function describeGuess(row: GuessRow): string {
+  const correct = row.results.filter((r) => r === 'correct').length;
+  const present = row.results.filter((r) => r === 'present').length;
+  return `${correct}개 정답, ${present}개 위치 틀림`;
+}
+
+function revealAnnouncement(state: GameState): string {
+  const last = state.guesses[state.guesses.length - 1];
+  if (state.status === 'won') {
+    return `정답입니다! ${state.display}`;
+  }
+  if (state.status === 'lost') {
+    return `아깝습니다. 정답은 ${state.display}입니다.`;
+  }
+  return describeGuess(last);
+}
+
 /**
  * Game state reducer
  */
@@ -25,7 +42,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       if (state.status !== 'playing' || state.animating) return state;
       if (!isKeyboardKey(action.key)) return state;
       if (state.currentInput.length >= 5) {
-        return { ...state, shaking: true };
+        return { ...state, shaking: true, announcement: '5글자를 모두 입력해주세요.' };
       }
       
       const newInput = [...state.currentInput, action.key];
@@ -41,7 +58,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'DELETE_KEY': {
       if (state.status !== 'playing' || state.animating) return state;
       if (state.currentInput.length === 0) {
-        return { ...state, shaking: true };
+        return { ...state, shaking: true, announcement: '입력할 수 없습니다.' };
       }
       
       const newInput = state.currentInput.slice(0, -1);
@@ -55,7 +72,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     case 'SUBMIT': {
       if (state.status !== 'playing' || state.animating) return state;
       if (state.currentInput.length < 5) {
-        return { ...state, shaking: true };
+        return { ...state, shaking: true, announcement: '5글자를 모두 입력해주세요.' };
       }
       
       const guessSlots = [...state.currentInput];
@@ -88,6 +105,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         animating: false,
+        announcement: revealAnnouncement(state),
       };
     
     case 'SET_ANIMATING':
@@ -116,6 +134,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         animationDelays: [],
         lastUsedKey: null,
         lastKeyEvaluation: null,
+        announcement: '',
       };
     
     default:
@@ -140,6 +159,7 @@ export function useGame() {
     animationDelays: [] as number[],
     lastUsedKey: null,
     lastKeyEvaluation: null,
+    announcement: '',
   });
   
   const animationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);

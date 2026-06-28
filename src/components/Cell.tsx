@@ -6,62 +6,56 @@ interface CellProps {
   animate: boolean;
   delay: number;
   isActive: boolean;
+  colIndex: number;
 }
 
-export function Cell({ value, evaluation, animate, delay, isActive }: CellProps) {
-  // Determine CSS classes based on evaluation
-  let bgColor = '';
-  let textColor = '';
-  let borderColor = 'var(--color-game-border)';
-  let scale = 'scale-90';
-  
+export function Cell({ value, evaluation, animate, delay, isActive, colIndex }: CellProps) {
+  let bgClass = '';
+  let textClass = 'text-game-text';
+  let borderClass = 'border-game-border';
+
   if (evaluation === 'correct') {
-    bgColor = 'bg-game-correct';
-    textColor = 'text-white';
-    borderColor = 'transparent';
-    scale = 'scale-100';
+    bgClass = 'bg-game-correct';
+    textClass = 'text-white';
+    borderClass = 'border-transparent';
   } else if (evaluation === 'present') {
-    bgColor = 'bg-game-present';
-    textColor = 'text-white';
-    borderColor = 'transparent';
-    scale = 'scale-100';
+    bgClass = 'bg-game-present';
+    textClass = 'text-white';
+    borderClass = 'border-transparent';
   } else if (evaluation === 'absent') {
-    bgColor = 'bg-game-absent';
-    textColor = 'text-white';
-    borderColor = 'transparent';
-    scale = 'scale-100';
+    bgClass = 'bg-game-absent';
+    textClass = 'text-white';
+    borderClass = 'border-transparent';
   } else if (value) {
-    bgColor = 'bg-game-surface';
-    textColor = 'text-game-text';
-    borderColor = value ? 'var(--color-game-text)' : 'var(--color-game-border)';
-    scale = 'scale-100';
+    bgClass = 'bg-game-surface';
+    textClass = 'text-game-text';
+    borderClass = 'border-game-text';
   }
-  
-  // Animation classes
-  const animClass = animate
-    ? `animate-flip`
-    : '';
-  
-  const bounceClass = animate && evaluation
-    ? `animate-bounce-cell`
-    : '';
-  
-  const scaleClass = !value && !evaluation
-    ? 'animate-scale-in'
-    : '';
-  
-  // Render
+
+  const animClass = animate ? 'animate-flip' : '';
+  const popClass = animate && evaluation ? 'animate-pop-cell' : '';
+  const scaleClass = !value && !evaluation ? 'animate-scale-in' : '';
+  const activeClass = isActive ? 'ring-2 ring-game-accent border-game-accent' : '';
+
+  const label = value
+    ? evaluation
+      ? `${value}, ${evaluation === 'correct' ? '정답' : evaluation === 'present' ? '위치 틀림' : '없음'}`
+      : value
+    : '빈 칸';
+
   return (
     <div
+      role="gridcell"
+      aria-colindex={colIndex + 1}
+      aria-label={label}
       className={`
         flex items-center justify-center
         w-[52px] h-[52px] sm:w-[56px] sm:h-[56px]
         border-2 rounded
         text-2xl sm:text-3xl font-bold
         transition-colors duration-200
-        ${bgColor} ${textColor} ${borderColor} ${scale}
-        ${animClass} ${bounceClass} ${scaleClass}
-        ${value ? 'border-t-2 border-l-2 border-b-2 border-r-2' : ''}
+        ${bgClass} ${textClass} ${borderClass} ${activeClass}
+        ${animClass} ${popClass} ${scaleClass}
       `}
       style={{
         animationDelay: animate ? `${delay}ms` : '0ms',
